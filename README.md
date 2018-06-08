@@ -1,5 +1,2 @@
 # sorting-algorithms
-
-// sort 50,000 elements using 6 different sorting algorithms
-// see which one is fastest, uses the least number of movements, and least number of swaps
-// sort in order, reverse order, or only partially ordered
+// A Java program that sorts 50,000 random elements using 6 different sorting algorithms. Shows which algorithm was fastest, which used the least number of movements, and which used the least number of swaps. Sorting can be done in order, reverse ordered, or partially ordered.
