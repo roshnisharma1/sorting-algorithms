@@ -1,0 +1,216 @@
+// Performs a heapsort on the data.
+
+
+
+class HeapSort {
+	private long comparisons = 0;
+	private long movements = 0;
+	private long startTime = 0;
+	private long endTime = 0;
+	private long sortTime = 0;
+	private int[] array = new int[50000];
+	int length = array.length;
+	private static int N = 0;
+	private int[] array20PercentSorted = new int[250000];
+	private int[] array80PercentSorted = new int[62500];
+	
+	// Constructor
+	HeapSort() {
+		this.comparisons = 0;
+		this.movements = 0;
+		// initialize array
+		for (int i = 0; i < length; i++) {
+			int min = 1;
+			array[i] = min + (int)(Math.random() * ((length - min) + 1));
+		}
+	}
+	
+	// method to swap largest element in heap
+	public void maxHeap(int q) {
+		int left = 2 * q;
+		int right = 2 * q + 1;
+		int max = q;
+		
+		if (left <= N && array[left] > array[q]) {
+			this.comparisons++;
+			max = left;
+		}
+		
+		if (right <= N && array[right] > array[max]) {
+			this.comparisons++;
+			max = right;
+		}
+		
+		if (max != q) {
+			int temp = array[q];
+			array[q] = array[max];
+			array[max] = temp;
+			this.movements++;
+			maxHeap(max);
+		}
+	}
+	
+	
+	// method to build heap in order
+	public void heapify() {
+		N = array.length - 1;
+		
+		for (int q = N/2; q >= 0; q--) {
+			maxHeap(q);
+		}
+	}
+	
+	// method to sort in order
+	public void sortInOrder() {
+		heapify();
+		
+		for (int i = N; i > 0; i--) {
+			int temp = array[0];
+			array[0] = array[i];
+			array[i] = temp;
+			this.movements++;
+			N = N - 1;
+			maxHeap(0);
+		}
+	}
+	
+	// method to sort in reverse order
+	public void sortInReverseOrder() {
+		// first, sort in order
+		heapify();
+		
+		for (int i = N; i > 0; i--) {
+			int temp = array[0];
+			array[0] = array[i];
+			array[i] = temp;
+			this.movements++;
+			N = N - 1;
+			maxHeap(0);
+		}
+		
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+				
+		// reverse order of list
+		Collections.reverse(list);
+				
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array[y] = list.get(y);
+		}
+	}
+	
+	// method to sort 20% through
+	public void sort_20Percent() {
+		// first, sort in order
+		heapify();
+				
+		for (int i = N; i > 0; i--) {
+			int temp = array[0];
+			array[0] = array[i];
+			array[i] = temp;
+			this.movements++;
+			N = N - 1;
+			maxHeap(0);
+		}
+	
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+								
+		int min = 1;
+						
+		// now, add 200,000 random elements
+		for (int z = length; z < 200000; z++) {
+			list.add(z, min + (int)(Math.random() * ((length - min) + 1)));
+		}
+										
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array20PercentSorted[y] = list.get(y);
+		}
+	}
+	
+	// method to sort 80% through
+	public void sort_80Percent() {
+		// first, sort in order
+		heapify();
+						
+		for (int i = N; i > 0; i--) {
+			int temp = array[0];
+			array[0] = array[i];
+			array[i] = temp;
+			this.movements++;
+			N = N - 1;
+			maxHeap(0);
+		}
+		
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+								
+		int min = 1;
+						
+		// now, add 12,500 random elements
+		for (int z = length; z < 12500; z++) {
+			list.add(z, min + (int)(Math.random() * ((length - min) + 1)));
+		}
+										
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array80PercentSorted[y] = list.get(y);
+		}
+	}
+	
+	
+	// setters
+	public void setStartTime() {
+		this.startTime = System.nanoTime();
+	}
+	
+	public void setEndTime() {
+		this.endTime = System.nanoTime();
+	}
+	
+	// getters
+	public long getComparisons() {
+		return this.comparisons;
+	}
+	
+	public long getMovements() {
+		return this.movements;
+	}
+	
+	public long getStartTime() {
+		return this.startTime;
+	}
+	
+	public long getEndTime() {
+		return this.endTime;
+	}
+	
+	public long getSortTime() {
+		this.sortTime = TimeUnit.MILLISECONDS.convert(this.getEndTime() - this.getStartTime(), TimeUnit.NANOSECONDS);
+		return this.sortTime;
+	}
+	
+	public void getArray() {
+		for (int element : array) {
+			System.out.print(element + " ");
+		}
+	}
+	
+	// toString method
+	public String toString() {
+		return "\nHEAP SORT\nComparisons: " + this.getComparisons() + "\nMovements: "
+				+ this.getMovements() + "\nSort time: " + this.getSortTime() + " milliseconds";
+	}
+}
+
