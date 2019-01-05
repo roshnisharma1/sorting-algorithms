@@ -1,0 +1,178 @@
+// Performs a selection sort on data.
+
+class SelectionSort {
+	private long comparisons = 0;
+	private long movements = 0;
+	private long startTime = 0;
+	private long endTime = 0;
+	private long sortTime = 0;
+	private int[] array = new int[50000];
+	int length = array.length;
+	private int[] array20PercentSorted = new int[250000];
+	private int[] array80PercentSorted = new int[62500];
+	
+	// constructor
+	SelectionSort() {
+		this.comparisons = 0;
+		this.movements = 0;
+		// initialize array
+		for (int i = 0; i < length; i++) {
+			int min = 1;
+			array[i] = min + (int)(Math.random() * ((length - min) + 1));
+		}
+	}
+	
+	// method to sort in order
+	public void sortInOrder() {
+		for (int q = 0; q < array.length - 1; q++) {
+			int index = q;
+			
+			for (int j = q + 1; j < array.length - 1; j++) {
+				if(array[j] < array[index]) {
+					index = j;
+					this.comparisons++;
+				}
+			}
+			
+			int smallerNum = array[index];
+			array[index] = array[q];
+			array[q] = smallerNum;
+			this.movements++;
+		}
+	}
+	
+	// method to sort in reverse order
+	public void sortInReverseOrder() {
+		for (int m = 0; m < array.length; m++) {
+			int max = m;
+			for (int j = m + 1; j < array.length; j++) {
+				if (array[j] > array[max]) {
+					max = j;
+					this.comparisons++;
+				}
+			}
+			
+			if (max != 1) {
+				int biggerNumber = array[m];
+				array[m] = array[max];
+				array[max] = biggerNumber;
+				this.movements++;
+			}
+		}
+	}
+	
+	// method to sort 20 percent through
+	public void sort_20Percent() {
+		//first, sort in order
+		for (int q = 0; q < array.length - 1; q++) {
+			int index = q;
+			
+			for (int j = q + 1; j < array.length - 1; j++) {
+				if(array[j] < array[index]) {
+					index = j;
+					this.comparisons++;
+				}
+			}
+			
+			int smallerNum = array[index];
+			array[index] = array[q];
+			array[q] = smallerNum;
+			this.movements++;
+		}
+		
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+		
+		int min = 1;
+		
+		// now, add 200,000 random elements
+		for (int z = length; z < 200000; z++) {
+			list.add(z, min + (int)(Math.random() * ((length - min) + 1)));
+		}
+				
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array20PercentSorted[y] = list.get(y);
+		}
+	}
+	
+	// method to sort 80 percent through
+	public void sort_80Percent() {
+		//first, sort in order
+		for (int q = 0; q < array.length - 1; q++) {
+			int index = q;
+					
+			for (int j = q + 1; j < array.length - 1; j++) {
+				this.comparisons++;
+				if(array[j] < array[index]) {
+					index = j;
+				}
+			}
+					
+			int smallerNum = array[index];
+			array[index] = array[q];
+			array[q] = smallerNum;
+			this.movements++;
+		}
+				
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+				
+		int min = 1;
+				
+		// now, add 12,500 random elements
+		for (int z = length; z < 12500; z++) {
+			list.add(z, min + (int)(Math.random() * ((length - min) + 1)));
+		}
+						
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array80PercentSorted[y] = list.get(y);
+		}
+	}
+	
+	
+	// setters
+	public void setStartTime() {
+		this.startTime = System.nanoTime();
+	}
+	
+	public void setEndTime() {
+		this.endTime = System.nanoTime();
+	}
+	
+	// getters
+	public long getComparisons() {
+		return this.comparisons;
+	}
+	
+	public long getMovements() {
+		return this.movements;
+	}
+	
+	public long getStartTime() {
+		return this.startTime;
+	}
+	
+	public long getEndTime() {
+		return this.endTime;
+	}
+	
+	public long getSortTime() {
+		this.sortTime = TimeUnit.MILLISECONDS.convert(this.getEndTime() - this.getStartTime(), TimeUnit.NANOSECONDS);
+		return this.sortTime;
+	}
+	
+	// toString
+	public String toString() {
+		return "\nSELECTION SORT\nComparisons: " + this.getComparisons() + "\nMovements: "
+				+ this.getMovements() + "\nSort time: " + this.getSortTime() + " milliseconds";
+	}
+	
+}
