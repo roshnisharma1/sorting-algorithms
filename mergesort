@@ -1,0 +1,223 @@
+// Performs a mergesort on data.
+
+
+class MergeSort {
+	private long comparisons = 0;
+	private long movements = 0;
+	private long startTime = 0;
+	private long endTime = 0;
+	private long sortTime = 0;
+	private int[] array = new int[50000];
+	int length = array.length;
+	private int[] tempMergeArray = new int[length];
+	private int[] array20PercentSorted = new int[250000];
+	private int[] array80PercentSorted = new int[62500];
+	
+	// constructor 
+	MergeSort() {
+		this.comparisons = 0;
+		this.movements = 0;
+		// initialize array
+		for (int i = 0; i < length; i++) {
+			int min = 1;
+			array[i] = min + (int)(Math.random() * ((length - min) + 1));
+		}
+	}
+	
+	// method to merge parts in order
+	private void mergeParts(int low, int middle, int high) {
+		// set temporary merge array equal to initial array
+		for (int i = low; i <= high; i++) {
+			tempMergeArray[i] = array[i];
+		}
+		
+		int i = low;
+		int j = middle+1;
+		int k = low;
+		
+		while (i <= middle && j <= high) {
+			if (tempMergeArray[i] <= tempMergeArray[j]) {
+				this.comparisons++;
+				array[k] = tempMergeArray[i];
+				i++;
+				this.movements++;
+			}
+			
+			else {
+				array[k] = tempMergeArray[j];
+				j++;
+				this.movements++;
+			}
+			
+			k++;
+		}
+		
+		while (i <= middle) {
+			array[k] = tempMergeArray[i];
+			k++;
+			i++;
+			this.movements++;
+		}
+	}
+	
+	// method to sort in order
+	public void sortInOrder(int low, int high) {
+		if (low < high) {
+			int middle = low + (high - low)/2;
+			
+			//sort left side of array
+			sortInOrder(low, middle);
+			
+			// sort right side of array
+			sortInOrder(middle+1, high);
+			
+			// merge both sides
+			mergeParts(low, middle, high);
+		}
+	}
+	
+	// method to sort in reverse order
+	public void sortInReverseOrder(int low, int high) {
+		// first, sort in order
+		if (low < high) {
+			int middle = low + (high - low)/2;
+			
+			//sort left side of array
+			sortInOrder(low, middle);
+			
+			// sort right side of array
+			sortInOrder(middle+1, high);
+			
+			// merge both sides
+			mergeParts(low, middle, high);
+		}
+		
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+				
+		// reverse order of list
+		Collections.reverse(list);
+				
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array[y] = list.get(y);
+		}
+	}
+	
+	// method to sort 20% through
+	public void sort_20Percent(int low, int high) {
+		// first, sort in order
+		if (low < high) {
+			int middle = low + (high - low)/2;
+			
+			//sort left side of array
+			sortInOrder(low, middle);
+			
+			// sort right side of array
+			sortInOrder(middle+1, high);
+			
+			// merge both sides
+			mergeParts(low, middle, high);
+		}
+		
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+								
+		int min = 1;
+						
+		// now, add 200,000 random elements
+		for (int z = length; z < 200000; z++) {
+			list.add(z, min + (int)(Math.random() * ((length - min) + 1)));
+		}
+										
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array20PercentSorted[y] = list.get(y);
+		}
+	}
+	
+	// method to sort 80% through
+	public void sort_80Percent(int low, int high) {
+		// first, sort in order
+		if (low < high) {
+			int middle = low + (high - low)/2;
+				
+			//sort left side of array
+			sortInOrder(low, middle);
+				
+			// sort right side of array
+			sortInOrder(middle+1, high);
+				
+			// merge both sides
+			mergeParts(low, middle, high);
+		}
+			
+		// now, convert array to array list
+		List<Integer> list = new ArrayList<Integer>();
+		for (int i = 0; i < length; i++) {
+			list.add(array[i]);
+		}
+									
+		int min = 1;
+							
+		// now, add 12,500 random elements
+		for (int z = length; z < 12500; z++) {
+			list.add(z, min + (int)(Math.random() * ((length - min) + 1)));
+		}
+											
+		// now, copy list back to array
+		for (int y = 0; y < list.size(); y++) {
+			array80PercentSorted[y] = list.get(y);
+		}
+	}
+	
+	// setters
+	public void setStartTime() {
+		this.startTime = System.nanoTime();
+	}
+	
+	public void setEndTime() {
+		this.endTime = System.nanoTime();
+	}
+	
+	// getters
+	public long getComparisons() {
+		return this.comparisons;
+	}
+	
+	public long getMovements() {
+		return this.movements;
+	}
+	
+	public long getStartTime() {
+		return this.startTime;
+	}
+	
+	public long getEndTime() {
+		return this.endTime;
+	}
+	
+	public long getSortTime() {
+		this.sortTime = TimeUnit.MILLISECONDS.convert(this.getEndTime() - this.getStartTime(), TimeUnit.NANOSECONDS);
+		return this.sortTime;
+	}
+	
+	public void getArray() {
+		for (int element : array) {
+			System.out.print(element + " ");
+		}
+	}
+	
+	// toString method
+	public String toString() {
+		return "\nMERGE SORT\nComparisons: " + this.getComparisons() + "\nMovements: "
+				+ this.getMovements() + "\nSort time: " + this.getSortTime() + " milliseconds";
+	}
+}
+
