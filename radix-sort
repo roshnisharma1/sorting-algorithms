@@ -1,8 +1,7 @@
 // Performs a radix sort on the data.
 
 
-
-class HeapSort {
+class RadixSort {
 	private long comparisons = 0;
 	private long movements = 0;
 	private long startTime = 0;
@@ -10,12 +9,11 @@ class HeapSort {
 	private long sortTime = 0;
 	private int[] array = new int[50000];
 	int length = array.length;
-	private static int N = 0;
 	private int[] array20PercentSorted = new int[250000];
 	private int[] array80PercentSorted = new int[62500];
 	
-	// Constructor
-	HeapSort() {
+	// constructor
+	RadixSort() {
 		this.comparisons = 0;
 		this.movements = 0;
 		// initialize array
@@ -25,67 +23,52 @@ class HeapSort {
 		}
 	}
 	
-	// method to swap largest element in heap
-	public void maxHeap(int q) {
-		int left = 2 * q;
-		int right = 2 * q + 1;
-		int max = q;
-		
-		if (left <= N && array[left] > array[q]) {
-			this.comparisons++;
-			max = left;
-		}
-		
-		if (right <= N && array[right] > array[max]) {
-			this.comparisons++;
-			max = right;
-		}
-		
-		if (max != q) {
-			int temp = array[q];
-			array[q] = array[max];
-			array[max] = temp;
-			this.movements++;
-			maxHeap(max);
-		}
+	// method to get digit
+	public static int getDigit(int value, int place) {
+		return ((value/place) % 10);
 	}
 	
-	
-	// method to build heap in order
-	public void heapify() {
-		N = array.length - 1;
+	// method to do counting sort in reference to exp (10, 100, etc.)
+	public int[] countSort(int place) {
+		// create output array
+		int[] outputArray = new int[length];
+		// create count array
+		int[] count = new int[10];
 		
-		for (int q = N/2; q >= 0; q--) {
-			maxHeap(q);
+		for (int i = 0; i < length; i++) {
+			int digit = getDigit(array[i], place);
+			count[digit]++;
 		}
+		
+		for (int p = 1; p < count.length; p++) {
+			count[p] += count[p-1];
+		}
+		
+		for (int m = length - 1; m >= 0; m--) {
+			int digit = getDigit(array[m], place);
+			outputArray[count[digit]-1] = array[m];
+			this.comparisons++;
+			this.movements++;
+			count[digit]--;
+		}
+		
+		return outputArray;
 	}
 	
 	// method to sort in order
 	public void sortInOrder() {
-		heapify();
-		
-		for (int i = N; i > 0; i--) {
-			int temp = array[0];
-			array[0] = array[i];
-			array[i] = temp;
-			this.movements++;
-			N = N - 1;
-			maxHeap(0);
+		for (int place = 1; place <= 1000000000; place *= 10) {
+			// count sort at each digit
+			array = countSort(place);
 		}
 	}
 	
-	// method to sort in reverse order
+	// method to reverse sorted array
 	public void sortInReverseOrder() {
 		// first, sort in order
-		heapify();
-		
-		for (int i = N; i > 0; i--) {
-			int temp = array[0];
-			array[0] = array[i];
-			array[i] = temp;
-			this.movements++;
-			N = N - 1;
-			maxHeap(0);
+		for (int place = 1; place <= 1000000000; place *= 10) {
+			// count sort at each digit
+			array = countSort(place);
 		}
 		
 		// now, convert array to array list
@@ -93,10 +76,10 @@ class HeapSort {
 		for (int i = 0; i < length; i++) {
 			list.add(array[i]);
 		}
-				
+		
 		// reverse order of list
 		Collections.reverse(list);
-				
+		
 		// now, copy list back to array
 		for (int y = 0; y < list.size(); y++) {
 			array[y] = list.get(y);
@@ -106,15 +89,9 @@ class HeapSort {
 	// method to sort 20% through
 	public void sort_20Percent() {
 		// first, sort in order
-		heapify();
-				
-		for (int i = N; i > 0; i--) {
-			int temp = array[0];
-			array[0] = array[i];
-			array[i] = temp;
-			this.movements++;
-			N = N - 1;
-			maxHeap(0);
+		for (int place = 1; place <= 1000000000; place *= 10) {
+			// count sort at each digit
+			array = countSort(place);
 		}
 	
 		// now, convert array to array list
@@ -136,20 +113,14 @@ class HeapSort {
 		}
 	}
 	
-	// method to sort 80% through
+	// method to sort 20% through
 	public void sort_80Percent() {
 		// first, sort in order
-		heapify();
-						
-		for (int i = N; i > 0; i--) {
-			int temp = array[0];
-			array[0] = array[i];
-			array[i] = temp;
-			this.movements++;
-			N = N - 1;
-			maxHeap(0);
+		for (int place = 1; place <= 1000000000; place *= 10) {
+			// count sort at each digit
+			array = countSort(place);
 		}
-		
+
 		// now, convert array to array list
 		List<Integer> list = new ArrayList<Integer>();
 		for (int i = 0; i < length; i++) {
@@ -167,8 +138,8 @@ class HeapSort {
 		for (int y = 0; y < list.size(); y++) {
 			array80PercentSorted[y] = list.get(y);
 		}
+		
 	}
-	
 	
 	// setters
 	public void setStartTime() {
@@ -209,8 +180,7 @@ class HeapSort {
 	
 	// toString method
 	public String toString() {
-		return "\nHEAP SORT\nComparisons: " + this.getComparisons() + "\nMovements: "
+		return "\nRADIX SORT\nComparisons: " + this.getComparisons() + "\nMovements: "
 				+ this.getMovements() + "\nSort time: " + this.getSortTime() + " milliseconds";
 	}
 }
-
