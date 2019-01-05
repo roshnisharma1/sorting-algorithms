@@ -1,0 +1,251 @@
+// Main class that includes function to run the program.
+
+public class Sort {
+	public static void main(String[] args) {
+		//create random array
+		int[] myArray = new int[50000];
+		int length = myArray.length;
+		int min = 1;
+		for (int i = 0; i < length; i++) {
+			myArray[i] = min + (int)(Math.random() * ((length - min) + 1));
+		}
+		
+		SelectionSort selection = new SelectionSort();
+		InsertionSort insertion = new InsertionSort();
+		QuickSort quick = new QuickSort();
+		MergeSort merge = new MergeSort();
+		HeapSort heap = new HeapSort();
+		RadixSort radix = new RadixSort();
+		
+		Scanner input = new Scanner(System.in);
+		System.out.println("Would you like to: ");
+		System.out.println("1. Sort in order\n2. Sort in reverse order\n3. Sort 20% through\n4. Sort 80% through");
+		int choice = input.nextInt();
+		
+		// sort in order
+		if (choice == 1) {
+			// selection sort
+			selection.setStartTime();
+			selection.sortInOrder();
+			selection.setEndTime();
+			System.out.println(selection.toString());
+			
+			// insertion sort
+			insertion.setStartTime();
+			insertion.sortInOrder();
+			insertion.setEndTime();
+			System.out.println(insertion.toString());
+			
+			// quick sort
+			quick.setStartTime();
+			quick.sortInOrder(0, myArray.length - 1);
+			quick.setEndTime();
+			System.out.println(quick.toString());
+			
+			// merge sort
+			merge.setStartTime();
+			merge.sortInOrder(0, myArray.length - 1);
+			merge.setEndTime();
+			System.out.println(merge.toString());
+			
+			 // heap sort
+			heap.setStartTime();
+			heap.sortInOrder();
+			heap.setEndTime();
+			System.out.println(heap.toString());
+			
+			// radix sort
+			radix.setStartTime();
+			radix.sortInOrder();
+			radix.setEndTime();
+			System.out.println(radix.toString());
+		}
+		
+		// sort in reverse order
+		else if (choice == 2) {
+			// selection sort
+			selection.setStartTime();
+			selection.sortInReverseOrder();
+			selection.setEndTime();
+			System.out.println(selection.toString());
+			
+			// insertion sort
+			insertion.setStartTime();
+			insertion.sortInReverseOrder();
+			insertion.setEndTime();
+			System.out.println(insertion.toString());			
+			
+			// quick sort
+			quick.setStartTime();
+			quick.sortInReverseOrder(0, myArray.length - 1);
+			quick.setEndTime();
+			System.out.println(quick.toString());
+			
+			// merge sort
+			merge.setStartTime();
+			merge.sortInReverseOrder(0, myArray.length-1);
+			merge.setEndTime();
+			System.out.println(merge.toString());
+			
+			// heap sort
+			heap.setStartTime();
+			heap.sortInReverseOrder();
+			heap.setEndTime();
+			System.out.println(heap.toString());
+			
+			// radix sort
+			radix.setStartTime();
+			radix.sortInReverseOrder();
+			radix.setEndTime();
+			System.out.println(radix.toString());
+		}
+		
+		// sort 20% through
+		else if (choice ==3) {
+			// selection sort
+			selection.setStartTime();
+			selection.sort_20Percent();
+			selection.setEndTime();
+			System.out.println(selection.toString());
+
+			// insertion sort
+			insertion.setStartTime();
+			insertion.sort_20Percent();
+			insertion.setEndTime();
+			System.out.println(insertion.toString());			
+			
+			// quick sort
+			quick.setStartTime();
+			quick.sort_20Percent(0, myArray.length - 1);
+			quick.setEndTime();
+			System.out.println(quick.toString());
+			
+			// merge sort
+			merge.setStartTime();
+			merge.sort_20Percent(0, myArray.length-1);
+			merge.setEndTime();
+			System.out.println(merge.toString());
+			
+			// heap sort
+			heap.setStartTime();
+			heap.sort_20Percent();
+			heap.setEndTime();
+			System.out.println(heap.toString());
+			
+			// radix sort
+			radix.setStartTime();
+			radix.sort_20Percent();
+			radix.setEndTime();
+			System.out.println(radix.toString());
+			
+		}
+		
+		// sort 80% through
+		else {
+			// selection sort
+			selection.setStartTime();
+			selection.sort_80Percent();
+			selection.setEndTime();
+			System.out.println(selection.toString());
+
+			// insertion sort
+			insertion.setStartTime();
+			insertion.sort_80Percent();
+			insertion.setEndTime();
+			System.out.println(insertion.toString());			
+			
+			// quick sort
+			quick.setStartTime();
+			quick.sort_80Percent(0, myArray.length - 1);
+			quick.setEndTime();
+			System.out.println(quick.toString());
+			
+			// merge sort
+			merge.setStartTime();
+			merge.sort_80Percent(0, myArray.length-1);
+			merge.setEndTime();
+			System.out.println(merge.toString());
+			
+			// heap sort
+			heap.setStartTime();
+			heap.sort_80Percent();
+			heap.setEndTime();
+			System.out.println(heap.toString());
+			
+			// radix sort
+			radix.setStartTime();
+			radix.sort_80Percent();
+			radix.setEndTime();
+			System.out.println(radix.toString());
+		}
+		
+		// create array list of sort times
+		ArrayList<Long> time_to_sort = new ArrayList<>();
+		time_to_sort.add(0, selection.getSortTime());
+		time_to_sort.add(1, insertion.getSortTime());
+		time_to_sort.add(2, quick.getSortTime());
+		time_to_sort.add(3, merge.getSortTime());
+		time_to_sort.add(4, heap.getSortTime());
+		time_to_sort.add(5, radix.getSortTime());
+		
+		// create array list of comparisons
+		ArrayList<Long> comparisons_to_sort = new ArrayList<>();
+		comparisons_to_sort.add(0, selection.getComparisons());
+		comparisons_to_sort.add(1, insertion.getComparisons());
+		comparisons_to_sort.add(2, quick.getComparisons());
+		comparisons_to_sort.add(3, merge.getComparisons());
+		comparisons_to_sort.add(4, heap.getComparisons());
+		comparisons_to_sort.add(5, radix.getComparisons());
+		
+		// create array list of movements
+		ArrayList<Long> movements_to_sort = new ArrayList<>();
+		movements_to_sort.add(0, selection.getMovements());
+		movements_to_sort.add(1, insertion.getMovements());
+		movements_to_sort.add(2, quick.getMovements());
+		movements_to_sort.add(3, merge.getMovements());
+		movements_to_sort.add(4, heap.getMovements());
+		movements_to_sort.add(5, radix.getMovements());
+		
+		String winner_time = getWinner(time_to_sort);
+		String winner_comparisons = getWinner(comparisons_to_sort);
+		String winner_movements = getWinner(movements_to_sort);
+		
+		System.out.println("\nThe winning algorithm based on time is " + winner_time + ".");
+		System.out.println("The winning algorithm based on comparisons is " + winner_comparisons + ".");
+		System.out.println("The winning algorithm based on movements is " + winner_movements + ".");
+		
+		input.close();
+	}
+	
+	public static String getWinner(ArrayList<Long> algorithms) {
+		// find minimum value
+		long minimum = algorithms.get(0);
+		
+		for (int i = 1; i < algorithms.size(); i++) {
+			if(algorithms.get(i) < minimum) {
+				minimum = algorithms.get(i);
+			}
+		}
+		
+		// get index of minimum value
+		int winner = algorithms.indexOf(minimum);
+		
+		// find which algorithm is at that index
+		String winningAlgorithm = " ";
+		switch(winner) {
+		case 0: winningAlgorithm = "selection sort";
+		break;
+		case 1: winningAlgorithm = "insertion sort";
+		break;
+		case 2: winningAlgorithm = "quick sort";
+		break;
+		case 3: winningAlgorithm = "merge sort";
+		break;
+		case 4: winningAlgorithm = "heap sort";
+		break;
+		default: winningAlgorithm = "radix sort";
+		}
+		
+		return winningAlgorithm;
+	}
+}	
